@@ -4,7 +4,7 @@ import mongoose, { Schema, model } from 'mongoose';
 interface IRoom {
   name: string;
   user: mongoose.ObjectId,
-  components: Array<{
+  widgets: Array<{
     device: mongoose.Types.ObjectId,
     type: String,
     pins: Array<{
@@ -17,7 +17,7 @@ interface IRoom {
 const RoomSchema = new Schema<IRoom>({
   name: String, 
   user: mongoose.Types.ObjectId,
-  components: [{
+  widgets: [{
     device: mongoose.Types.ObjectId,
     type: String,
     pins: [mongoose.Schema.Types.Mixed]
