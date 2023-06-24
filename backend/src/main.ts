@@ -12,20 +12,21 @@ import router from "./router";
 
 import RequestLogger from "./middleware/RequestLogger";
 import MqttManager from "./lib/MqttManager";
+import chalk from "chalk";
 
 
 const boot = async () => {
-    console.log("\n\n-----------------------------------------------------------------------")
-    console.log("Launching Database");
+    console.log("-----------------------------------------------------------------------")
+    console.log(chalk.blue("Launching Database"));
     await models.init();
 
-    console.log("\n\n-----------------------------------------------------------------------")
-    console.log("Launching Mqtt Client");
-    const mqttClient = MqttManager();
+    console.log("-----------------------------------------------------------------------")
+    console.log(chalk.blue("Launching Mqtt Client"));
+    const mqttClient = await MqttManager();
 
     //
-    console.log("\n\n-----------------------------------------------------------------------")
-    console.info("Launching router")
+    console.log("-----------------------------------------------------------------------")
+    console.info(chalk.blue("Launching router"))
     const app = express();
     app.use(cors());
     app.use(bodyParser.json());
@@ -35,19 +36,19 @@ const boot = async () => {
     await router(app);
     const server = http.createServer(app);
 
-    console.log("\n\n-----------------------------------------------------------------------")
-    console.log("Launching socket.io");
-    console.log("");
+    console.log("-----------------------------------------------------------------------")
+    console.log(chalk.blue("Launching socket.io"));
     const io = new Server(server, { cors: { origin: '*' } });
     instrument(io, {
         auth: false,
         mode: "development",
       });
     app.set("io", io); //assign io variable to app
+    console.log("Socket Io has beed launched");
 
 
-    console.log("\n\n-----------------------------------------------------------------------")
-    console.log("Launching server");
+    console.log("-----------------------------------------------------------------------")
+    console.log(chalk.blue("Launching server"));
     const port = Number(process.env.PORT || 3001);
     server.listen(port, () => {
         console.log("HTTP Server is listening to port : ", port);
