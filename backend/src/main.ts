@@ -7,6 +7,7 @@ import { Server } from "socket.io";
 const { instrument } = require("@socket.io/admin-ui");
 dotenv.config();
 import "./lib/logger";
+import {_console} from "./lib/logger";
 import * as models from "./models";
 import router from "./router"; 
 
@@ -17,11 +18,11 @@ import chalk from "chalk";
 
 const boot = async () => {
     console.log("-----------------------------------------------------------------------")
-    console.log(chalk.blue("Launching Database"));
+    console.info(chalk.blue("Launching Database"));
     await models.init();
 
     console.log("-----------------------------------------------------------------------")
-    console.log(chalk.blue("Launching Mqtt Client"));
+    console.info(chalk.blue("Launching Mqtt Client"));
     const mqttClient = await MqttManager();
 
     //
@@ -33,11 +34,12 @@ const boot = async () => {
     app.use(bodyParser.urlencoded({extended:true}));
     app.use(RequestLogger);
     app.set("mqtt", mqttClient);
-    await router(app);
+    const endpoints = await router(app);
+    _console.table(endpoints);
     const server = http.createServer(app);
 
     console.log("-----------------------------------------------------------------------")
-    console.log(chalk.blue("Launching socket.io"));
+    console.info(chalk.blue("Launching socket.io"));
     const io = new Server(server, { cors: { origin: '*' } });
     instrument(io, {
         auth: false,
@@ -48,7 +50,7 @@ const boot = async () => {
 
 
     console.log("-----------------------------------------------------------------------")
-    console.log(chalk.blue("Launching server"));
+    console.info(chalk.blue("Launching server"));
     const port = Number(process.env.PORT || 3001);
     server.listen(port, () => {
         console.log("HTTP Server is listening to port : ", port);
