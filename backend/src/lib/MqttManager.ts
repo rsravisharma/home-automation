@@ -5,7 +5,7 @@ export default function MqttManager() {
     client.on('connect', function () {
         console.log("MQTT Connected");
         client.subscribe('message');
-        client.publish('message', "hello");
+        // client.publish('message', "hello");
     })
 
     client.on('message', function (topic : string, message : any) {
