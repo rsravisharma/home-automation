@@ -1,7 +1,7 @@
 
 import { NextFunction } from "express";
 import JWT from "jsonwebtoken";
-export default (options: { role: string }) => async function AuthMiddleware(req: any, res: any, next: NextFunction) {
+export default (options: { role: string, platform: string }) => async function AuthMiddleware(req: any, res: any, next: NextFunction) {
     const accessToken = (req.headers.authorization || req.headers.Authorization).replace("Bearer ", "");
     console.log("The token is", accessToken);
     if (!accessToken) return res.status(401).json({
