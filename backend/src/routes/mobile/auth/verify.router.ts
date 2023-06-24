@@ -1,8 +1,12 @@
 import { Router } from "express";
-import User from "../../models/schemas/User";
-import TokenManager from "./../../lib/TokenManager";
+import User from "../../../models/schemas/User";
+import TokenManager from "../../../lib/TokenManager";
 const router = Router({ mergeParams: true });
-
+export const options = {
+    isSeure: true, 
+    role: "user",
+    platform: "mobile"
+}
 router.post("/", async (req: any, res) => {
     const rToken = req.body.refreshToken;
 

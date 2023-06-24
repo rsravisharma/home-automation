@@ -1,7 +1,7 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import User from "../../models/schemas/User";
-import TokenManager from "./../../lib/TokenManager";
+import User from "../../../models/schemas/User";
+import TokenManager from "./../../../lib/TokenManager";
 
 const router = Router({ mergeParams: true });
 

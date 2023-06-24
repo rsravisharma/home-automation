@@ -28,7 +28,7 @@ const boot = async () => {
 
     //
     console.log("-----------------------------------------------------------------------")
-    console.info(chalk.blue("Launching router"))
+    console.info(chalk.blue("Registering router"))
     const app = express();
     app.use(cors());
     app.use(bodyParser.json());
@@ -40,6 +40,7 @@ const boot = async () => {
         columnSplitter: ' → ',
         showHeaders: false
       }));
+    console.log("Router registered");
     const server = http.createServer(app);
 
     console.log("-----------------------------------------------------------------------")
