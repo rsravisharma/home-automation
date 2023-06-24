@@ -27,7 +27,7 @@ async function populate(app: Express, prefix = "", data:any=[]) {
             const routePath = path.resolve(pathPrefix + "/" + (file.startsWith("index") ? prefix : prefix + (file.replace(".router.js", "").replace(".router.ts", ""))));
             // console.log(chalk.yellow(routePath), "-→", path.join(prefix, file))
             data.push({
-                endpoint: routePath,
+                endpoint: chalk.yellow(routePath),
                 handler:  path.join(prefix, file)
             });
             //middlewares

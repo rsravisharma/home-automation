@@ -14,6 +14,7 @@ import router from "./router";
 import RequestLogger from "./middleware/RequestLogger";
 import MqttManager from "./lib/MqttManager";
 import chalk from "chalk";
+import columnify from "columnify";
 
 
 const boot = async () => {
@@ -35,7 +36,10 @@ const boot = async () => {
     app.use(RequestLogger);
     app.set("mqtt", mqttClient);
     const endpoints = await router(app);
-    _console.table(endpoints);
+    _console.log(columnify(endpoints, {
+        columnSplitter: ' → ',
+        showHeaders: false
+      }));
     const server = http.createServer(app);
 
     console.log("-----------------------------------------------------------------------")
