@@ -1,7 +1,7 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import User from "../../models/schemas/User";
+import TokenManager from "./../../lib/TokenManager";
 
 const router = Router({ mergeParams: true });
 
@@ -33,17 +33,14 @@ router.post("/", async (req, res) => {
     await user.save();
    
 
-
-    const token = jwt.sign({
-        _id: user._id,
-        iat: Math.floor(Date.now() / 1000) - 10000
-    }, process.env.ACCESS_TOKEN_KEY || "");
+    const  {accessToken, refreshToken} =  await TokenManager.generateAuthTokens(user);
 
     return res.json({
         resultCode: "SUCCESS",
         message: "Successful",
         result: {
-            accessToken: token
+            accessToken,
+            refreshToken
         }
     })
 
