@@ -38,16 +38,12 @@ const boot = async () => {
     console.log("\n\n-----------------------------------------------------------------------")
     console.log("Launching socket.io");
     console.log("");
-    const io = new Server(server, {
-        cors: {
-            origin: "*"
-        }
-    });
+    const io = new Server(server, { cors: { origin: '*' } });
     instrument(io, {
         auth: false,
         mode: "development",
       });
-    app.set("io", io);
+    app.set("io", io); //assign io variable to app
 
 
     console.log("\n\n-----------------------------------------------------------------------")
