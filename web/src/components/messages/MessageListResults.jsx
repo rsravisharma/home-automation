@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import {
-  Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
-  TableRow,
-  Typography
-} from '@mui/material';
+  TableRow} from '@mui/material';
 import MsgidChip from '../shared/MsgidChip';
 import DeviceChip from '../shared/DeviceChip';
+import PropTypes from 'prop-types';
 
-const MessageListResults = ({ messages, alert_only, ...rest }) => {
+MessageListResults.propTypes = {
+  messages: PropTypes.any,
+  alertOnly: PropTypes.bool,
+};
+
+export default function MessageListResults({ messages, alertOnly, ...rest }){
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -80,7 +81,7 @@ const MessageListResults = ({ messages, alert_only, ...rest }) => {
             </TableHead>
             <TableBody>
               {
-                (alert_only?getAlertMessages(messages):messages).slice(page * limit, ((page+1)*limit)>(alert_only?getAlertMessages(messages):messages).length?(alert_only?getAlertMessages(messages):messages).length:((page+1)*limit)).map((message) => (
+                (alertOnly?getAlertMessages(messages):messages).slice(page * limit, ((page+1)*limit)>(alertOnly?getAlertMessages(messages):messages).length?(alertOnly?getAlertMessages(messages):messages).length:((page+1)*limit)).map((message) => (
                 <TableRow
                   hover
                   key={message.msgid}
@@ -127,10 +128,4 @@ const MessageListResults = ({ messages, alert_only, ...rest }) => {
       />
     </Card>
   );
-};
-
-MessageListResults.propTypes = {
-  messages: PropTypes.array.isRequired
-};
-
-export default MessageListResults;
+}

@@ -16,11 +16,19 @@ import {
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Link } from 'react-router-dom';
 // import messages from './__mocks__/messages';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import DeviceChip from '../shared/DeviceChip';
 import MsgidChip from '../shared/MsgidChip';
+import PropTypes from 'prop-types';
 
-const LatestMessages = (props) => {
+LatestMessages.propTypes = {
+  messages: {
+    reverse: PropTypes.func,
+    slice: PropTypes.func,
+  }
+};
+
+export default function LatestMessages(props){
   const MAX = 6;
   const [latestOrder, setLatestOrder] = useState(true);  
   var messages = props.messages;
@@ -125,6 +133,4 @@ const LatestMessages = (props) => {
       
     </Box>
   </Card>
-)};
-
-export default LatestMessages;
+)}

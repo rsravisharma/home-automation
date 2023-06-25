@@ -1,30 +1,22 @@
 import { Helmet } from 'react-helmet';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
-  Avatar,
   Box,
   Button,
   Card,
-  CardContent,
   Checkbox,
-  Chip,
   Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormControlLabel,
-  Grid,
-  InputAdornment,
-  SvgIcon,
-
+  
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
   TextField,
   Typography
@@ -34,7 +26,6 @@ import { Formik } from 'formik';
 import fetchDeviceList from '../utils/fetchDeviceList';
 import DeviceListToolbar from '../components/devices/DeviceListToolbar';
 import DeviceChip from '../components/shared/DeviceChip';
-import { Navigate } from 'react-router-dom';
 import connect_config from '../utils/config.json';
 
 const DeviceList = () => {

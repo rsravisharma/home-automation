@@ -8,8 +8,14 @@ import {
     Typography
   } from '@mui/material';
   import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+  import PropTypes from 'prop-types';
+
+  TotalDevices.propTypes = {
+    devicesNum: PropTypes.number,
+    onlineNum: PropTypes.number,
+  };
   
-  const TotalDevices = ({devices_num, online_num}) => (
+  export default function TotalDevices ({devicesNum, onlineNum}) {
     <Card
       sx={{ height: '100%' }}
     >
@@ -31,7 +37,7 @@ import {
               color="textPrimary"
               variant="h3"
             >
-              Online {online_num}/{devices_num}
+              Online {onlineNum}/{devicesNum}
             </Typography>
           </Grid>
           <Grid item>
@@ -48,7 +54,7 @@ import {
         </Grid>
         <Box sx={{ pt: 3 }}>
           <LinearProgress
-            value={devices_num?online_num/devices_num * 100 : 0}
+            value={devicesNum?onlineNum/devicesNum * 100 : 0}
             variant="determinate"
           />
         </Box>
@@ -78,7 +84,6 @@ import {
         </Box> */}
       </CardContent>
     </Card>
-  );
+  }
   
-  export default TotalDevices;
   

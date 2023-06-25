@@ -1,11 +1,23 @@
 import {
-    Box,
     Typography
 } from '@mui/material';
 import React from "react";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
-const SingleMessageMap = ({height, message}) => {
+SingleMessageMap.propTypes = {
+    message: {
+        lat: PropTypes.any,
+        lng: PropTypes.any,
+        alert: PropTypes.string,
+        msgid: PropTypes.number,
+        clientId: PropTypes.string,
+        timestamp: PropTypes.string
+  },
+  height: PropTypes.number,
+};
+
+export default function SingleMessageMap({height, message}) {
     const mapRef = React.useRef(null);
     var [alert, setAlert] = useState(true);
     React.useEffect(() => {
@@ -51,7 +63,7 @@ const SingleMessageMap = ({height, message}) => {
 
         const contentString =
             '<div class="info-window-content"><h2>Message #' + message.msgid + '</h2>' +
-            '<p>sent by device <b>#' + message.clientid + '</b> at <b>' + message.timestamp + '</b></p></div>';
+            '<p>sent by device <b>#' + message.clientId + '</b> at <b>' + message.timestamp + '</b></p></div>';
 
         const infowindow = new google.maps.InfoWindow({
             content: contentString,
@@ -73,6 +85,4 @@ const SingleMessageMap = ({height, message}) => {
         <div style={{ height: height }} ref={mapRef}></div>
     </>
     );
-};
-
-export default SingleMessageMap;
+}

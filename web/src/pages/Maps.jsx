@@ -1,9 +1,10 @@
-import React from "react";
 import AllMessagesMap from "../components/shared/AllMessagesMap";
-import { Navigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const Maps = ({height}) => {
-    return <AllMessagesMap height={height}/>
+Maps.propTypes = {
+  height: PropTypes.number,
 };
 
-export default Maps;
+export default function Maps({height}){
+    return <AllMessagesMap height={height}/>
+}

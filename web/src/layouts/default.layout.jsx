@@ -6,10 +6,9 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 
 import { Outlet } from "react-router-dom"
-import { Tooltip, Avatar, Menu, MenuItem, Divider, CircularProgress } from '@mui/material';
+import { Tooltip, Avatar, Menu, Divider, CircularProgress } from '@mui/material';
 // import AppDrawer from '../components/drawers/app.drawer';
 import DashboardSidebar from '../components/dashboard/DashboardSidebar';
 import { Suspense, useState } from 'react';

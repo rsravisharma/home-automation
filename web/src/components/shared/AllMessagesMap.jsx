@@ -1,17 +1,17 @@
 import React from "react";
 import { useEffect, useState } from 'react';
 import {
-    Box,
     Typography,
 } from '@mui/material';
-import fetchAllMessages from "../../utils/fetchAllMessages";
-import fetchDeviceList from "../../utils/fetchDeviceList";
 import MessageDialog from "./MessageDialog";
-import DeviceDialog from "./DeviceDialog";
-import messages from "../../__mocks__/messages";
-import devices from "../../__mocks__/devices";
+import DeviceDialog from "./DeviceDialog"; 
+import PropTypes from 'prop-types';
 
-const AllMessagesMap = ({height}) => {
+AllMessagesMap.propTypes = {
+    height: PropTypes.number,
+};
+
+export default function AllMessagesMap({height}){
     const mapRef = React.useRef(null);
     let google = window.google;
     let map = mapRef.current;
@@ -69,15 +69,15 @@ const AllMessagesMap = ({height}) => {
         map = new google.maps.Map(map, mapOptions);
 
         /* Draw polyline */
-        for(var device of devices)
+        for(var deviceList of devices)
         {
             const messages_path = new google.maps.Polyline({
-                path: devices_locations[device.clientid],
+                path: devices_locations[deviceList.clientid],
                 geodesic: true,
-                strokeColor: devices_colors[device.clientid],
+                strokeColor: devices_colors[deviceList.clientid],
                 strokeOpacity: 1.0,
                 strokeWeight: 4,
-                device: device,
+                device: deviceList,
                 icons: [
                     {
                         icon: {
@@ -88,8 +88,8 @@ const AllMessagesMap = ({height}) => {
                 ],
             });
             
-            var contentString = '<div class="info-window-content"><h2>' + device.device_name + '</h2>' + '<p>#' + device.clientid + '</p>';
-            if(device.offline_at)
+            var contentString = '<div class="info-window-content"><h2>' + deviceList.device_name + '</h2>' + '<p>#' + deviceList.clientid + '</p>';
+            if(deviceList.offline_at)
             {
                 contentString += '<h3 style=\'color: #69778b\'>Offline</h3>';
             }
@@ -115,12 +115,12 @@ const AllMessagesMap = ({height}) => {
         }
         
         /* Add marks */
-        var i = 0;
-        for(var message of messages)
+        // var list = 0;
+        for(var messageList of messages)
         {
             const svgMarker = {
                 path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
-                fillColor: message.alert?'#ffc400':'#555555',
+                fillColor: messageList.alert?'#ffc400':'#555555',
                 strokeColor: 'black', // Use HSLa function
                 fillOpacity: 1.0,
                 strokeWeight: 2,
@@ -129,17 +129,17 @@ const AllMessagesMap = ({height}) => {
                 anchor: { x: 12, y: 22 },
             };
             const marker = new google.maps.Marker({
-                position: {lat: message.lat, lng: message.lng},
+                position: {lat: messageList.lat, lng: messageList.lng},
                 icon: svgMarker,
                 map: map,
                 animation: google.maps.Animation.DROP,
                 title: 'Click to see more',
-                message: message,
+                message: messageList,
             });
     
             const contentString =
-                '<div class="info-window-content"><h2>Message #' + message.msgid + '</h2>' +
-                '<p>sent by device <b>#' + message.clientid + '</b> at <b>' + message.timestamp + '</b></p></div>';
+                '<div class="info-window-content"><h2>Message #' + messageList.msgid + '</h2>' +
+                '<p>sent by device <b>#' + messageList.clientid + '</b> at <b>' + messageList.timestamp + '</b></p></div>';
     
             const infowindow = new google.maps.InfoWindow({
                 content: contentString,
@@ -156,7 +156,7 @@ const AllMessagesMap = ({height}) => {
             google.maps.event.addListener(marker, "mouseout", function () {
                 infowindow.close(map, marker);
             });
-            i++;
+            // list++;
         }
 
     }, [messages, devices]);
@@ -200,6 +200,4 @@ const AllMessagesMap = ({height}) => {
         />
     </>
     );
-};
-
-export default AllMessagesMap;
+}

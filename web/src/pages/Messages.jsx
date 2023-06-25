@@ -4,12 +4,11 @@ import MessageListResults from '../components/messages/MessageListResults';
 import MessageCard from '../components/messages/MessageCard';
 import MessageListToolbar from '../components/messages/MessageListToolbar';
 // import messages from '../__mocks__/messages';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // import { useParams } from "react-router-dom";
 import fetchAllMessages from '../utils/fetchAllMessages';
-import { Navigate } from 'react-router-dom';
 
-const Messages = (props) => {
+const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [all_messages, setAllMessages] = useState([]);
   const [view, setView] = useState('card');

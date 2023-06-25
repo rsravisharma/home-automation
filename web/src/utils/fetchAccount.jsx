@@ -3,7 +3,7 @@ import connect_config from './config.json';
  * Fetch the user's account info
  * @returns 'account', an object of the user's information
  */
- const fetchAccount = (msgid) => {
+ const fetchAccount = () => {
     return new Promise((resolve) => {
         fetch(connect_config.backend_host + '/fetch_account',{
             method:'post',

@@ -4,7 +4,7 @@ import {
   Grid,
   Typography
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import TotalDevices from '../components/dashboard/TotalDevices';
 import LatestMessages from '../components/dashboard/LatestMessages.jsx';
 import RecentDevices from '../components/dashboard/RecentDevices';
@@ -14,9 +14,9 @@ import RecentDevices from '../components/dashboard/RecentDevices';
 // import TotalInfoSize from '../components/dashboard/TotalInfoSize';
 // import MessageByDevice from '../components/dashboard/MessageByDevice';
 // import React, { useState, useEffect } from 'react';
-// import fetchDeviceList from '../utils/fetchDeviceList';
-// import fetchAllMessages from '../utils/fetchAllMessages';
-import { Navigate } from 'react-router-dom';
+import fetchDeviceList from '../utils/fetchDeviceList';
+import fetchAllMessages from '../utils/fetchAllMessages';
+// import { Navigate } from 'react-router-dom';
 
 const Dashboard = () => {
   console.log('this is the test title');
@@ -28,26 +28,26 @@ const Dashboard = () => {
     if(sessionStorage.getItem('user_name'))
     {
       // Fetch all messages
-      // fetchAllMessages().then((data) => {
-      //   setMessages(data);
-      // });
+      fetchAllMessages().then((data) => {
+        setMessages(data);
+      });
       // Fetch device list
-      // fetchDeviceList().then((data) => {
-      //   setDevices(data);
-      // });
+      fetchDeviceList().then((data) => {
+        setDevices(data);
+      });
     }
   }, []);
 
-  const getAlertRate = (messages) => {
-    var message_num = messages.length;
-    var alert_num = 0.0;
-    for(var obj of messages)
-    {
-      if(obj.alert) alert_num++;
-    }
-    if(message_num == 0) return 0;
-    return (alert_num / message_num);
-  };
+  // const getAlertRate = (messages) => {
+  //   var message_num = messages.length;
+  //   var alert_num = 0.0;
+  //   for(var obj of messages)
+  //   {
+  //     if(obj.alert) alert_num++;
+  //   }
+  //   if(message_num == 0) return 0;
+  //   return (alert_num / message_num);
+  // };
 
   const getOnlineDeviceNum = (devices) => {
     var online_num = 0;
@@ -58,14 +58,15 @@ const Dashboard = () => {
     return online_num;
   };
 
-  const getTotalInfoSize = (messages) => {
-    var size = 0;
-    for(var obj of messages)
-    {
-      size += obj.info.length;
-    }
-    return size;
-  };
+  // const getTotalInfoSize = (messages) => {
+  //   var size = 0;
+  //   for(var obj of messages)
+  //   {
+  //     size += obj.info.length;
+  //   }
+  //   return size;
+  // };
+  
   return(
   <Box>
     <Typography>

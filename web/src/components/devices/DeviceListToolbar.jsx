@@ -9,9 +9,17 @@ import {
   } from '@mui/material';
   import SearchIcon from '@mui/icons-material/Search';
   import RefreshIcon from '@mui/icons-material/Refresh';
-  import React, { useState, useEffect } from 'react';
+  import { useState } from 'react';
+  import PropTypes from 'prop-types';
+
+  DeviceListToolbar.propTypes = {
+    deleteDevice: PropTypes.func,
+    addDevice: PropTypes.func,
+    searchDevices: PropTypes.func,
+    refreshMessages: PropTypes.func,
+  };
   
-  const DeviceListToolbar = (props) => {
+  export default function DeviceListToolbar(props){
     const [search_content, setSearchContent] = useState('');
   
     return(
@@ -110,7 +118,5 @@ import {
         </Card>
       </Box>
     </Box>
-  )};
-  
-  export default DeviceListToolbar;
+  )}
   

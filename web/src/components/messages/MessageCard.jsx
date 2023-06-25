@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -12,10 +11,9 @@ import {
   Typography
 } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import GetAppIcon from '@mui/icons-material/GetApp';
 import DeviceChip from '../shared/DeviceChip';
 import MessageDialog from '../shared/MessageDialog';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const MessageCard = ({ message, ...rest }) => {
   const [viewingMessage, setViewingMessage] = useState(false);

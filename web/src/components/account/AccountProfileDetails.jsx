@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -12,14 +11,22 @@ import {
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import connect_config from '../../utils/config.json';
+import PropTypes from 'prop-types';
 
-const AccountProfileDetails = ({account}) => {
+AccountProfileDetails.propTypes = {
+  account: {
+    email: PropTypes.string,
+    phoneNumber: PropTypes.string,
+  }
+};
+
+export default function AccountProfileDetails({account}){
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{
         email: account.email?account.email:'',
-        phone_number: account.phone_number?account.phone_number:'',
+        phoneNumber: account.phoneNumber ? account.phoneNumber: '',
       }}
       validationSchema={
         Yup.object().shape({
@@ -38,7 +45,7 @@ const AccountProfileDetails = ({account}) => {
           body: JSON.stringify({
             "user_name": window.sessionStorage.getItem('user_name')?window.sessionStorage.getItem('user_name'):'Guest',
             "email": values.email,
-            "phone_number": values.phone_number
+            "phoneNumber": values.phoneNumber
           })
         }).then(res=>{
           res.json().then((ret)=>{
@@ -107,10 +114,10 @@ const AccountProfileDetails = ({account}) => {
                   <TextField
                     fullWidth
                     label="Phone Number"
-                    name="phone_number"
+                    name="phoneNumber"
                     onChange={handleChange}
                     type="number"
-                    value={values.phone_number}
+                    value={values.phoneNumber}
                     variant="outlined"
                   />
                 </Grid>
@@ -140,6 +147,5 @@ const AccountProfileDetails = ({account}) => {
         </form>)}
     </Formik>
   );
-};
+}
 
-export default AccountProfileDetails;

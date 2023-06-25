@@ -9,9 +9,16 @@ import {
   } from '@mui/material';
   import SearchIcon from '@mui/icons-material/Search';
   import RefreshIcon from '@mui/icons-material/Refresh';
-  import React, { useState, useEffect } from 'react';
+  import { useState } from 'react'; 
+  import PropTypes from 'prop-types';
+
+  MessageListToolbar.propTypes = {
+    searchDevices: PropTypes.func,
+    refreshMessages: PropTypes.func,
+    searchMessages: PropTypes.func,
+  };
   
-  const MessageListToolbar = (props) => {
+  export default function MessageListToolbar(props){
     const [search_content, setSearchContent] = useState('');
   
     return(
@@ -108,7 +115,5 @@ import {
         </Card>
       </Box>
     </Box>
-  )};
-  
-  export default MessageListToolbar;
+  )}
   

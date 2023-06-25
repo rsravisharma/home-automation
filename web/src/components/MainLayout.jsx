@@ -3,7 +3,7 @@ import { experimentalStyled } from '@mui/material';
 import MainNavbar from './MainNavbar';
 
 const MainLayoutRoot = experimentalStyled('div')(
-  ({ theme }) => ({
+  () => ({
     backgroundColor: "red",
     display: 'flex',
     height: '100%',

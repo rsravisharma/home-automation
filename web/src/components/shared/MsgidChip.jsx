@@ -1,34 +1,16 @@
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    Chip,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    DialogActions,
-    DialogContentText,
-    Divider,
-    Grid,
-    Checkbox,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Typography,
-    TextField
-} from '@mui/material';
+    Chip} from '@mui/material';
 import fetchSingleMessage from '../../utils/fetchSingleMessage';
 import MessageDialog from './MessageDialog'; 
+import PropTypes from 'prop-types';
+
+MsgidChip.propTypes = {
+  msgid: PropTypes.string
+};
 
 
-const MsgidChip = ({ msgid, ...rest }) => {
+export default function MsgidChip({ msgid }){
     const [messageLoaded, setMessageLoaded] = useState(false);
     const [message, setMessage] = useState({});
     const [viewingMessage, setViewingMessage] = useState(false);
@@ -60,5 +42,3 @@ const MsgidChip = ({ msgid, ...rest }) => {
         </>
     )
 }
-
-export default MsgidChip;

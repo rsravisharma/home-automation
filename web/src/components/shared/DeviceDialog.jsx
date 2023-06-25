@@ -1,41 +1,44 @@
-import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import {
-    Avatar,
-    Box,
     Button,
-    Card,
-    Chip,
     Dialog,
     DialogContent,
     DialogTitle,
     DialogActions,
     DialogContentText,
-    Divider,
-    Grid,
-    Checkbox,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Typography,
-    TextField
-} from '@mui/material';
+    Typography} from '@mui/material';
 import SingleDeviceMaps from './SingleDeviceMap';
 import fetchMessageOfDevice from '../../utils/fetchMessageOfDevice';
+import PropTypes from 'prop-types';
 
-const DeviceDialog = ({device, viewingDevice, setViewingDevice}) => {
-    const [messages, setMessages] = useState([]);
+DeviceDialog.propTypes = {
+  device: {
+    clientId: PropTypes.string,
+    deviceName: PropTypes.string,
+    offlineAt: PropTypes.number,
+    onlineAt: PropTypes.number,
+    created: PropTypes.number,
+  },
+  viewingDevice: PropTypes.object,
+  setViewingDevice: PropTypes.func,
+  messages: PropTypes.object,
+  clientId: PropTypes.func,
+  deviceName: PropTypes.func,
+  offlineAt: PropTypes.number,
+  onlineAt: PropTypes.number,
+  created: PropTypes.number,
+};
+
+export default function DeviceDialog({device, viewingDevice, setViewingDevice}){
+    // const [messages, setMessages] = useState([]);
     const [messagesLoaded, setMessagesLoaded] = useState(false);
 
     useEffect(()=>{
         if(viewingDevice && !messagesLoaded)
         {
             setMessagesLoaded(true);
-            fetchMessageOfDevice(device.clientid).then((data) => {
-                setMessages(data);
+            fetchMessageOfDevice(device.clientId).then(() => {
+                // setMessages(data);
             });
         }
     });
@@ -54,17 +57,17 @@ const DeviceDialog = ({device, viewingDevice, setViewingDevice}) => {
             {
                 Object.keys(device).length?
                 <DialogContent>
-                    <Typography variant='h2'>{device.device_name}</Typography>
+                    <Typography variant='h2'>{device.deviceName}</Typography>
                     <DialogContentText>
-                        <Typography>#{device.clientid}</Typography>
+                        <Typography>#{device.clientId}</Typography>
                     </DialogContentText>
                         {
-                            device.offline_at?
-                            <Typography style={{color: '#69778b'}}><b>Offlined</b> at {device.offline_at}</Typography>
+                            device.offlineAt?
+                            <Typography style={{color: '#69778b'}}><b>Offlined</b> at {device.offlineAt}</Typography>
                             :<Typography style={{color: 'teal'}}><b>Online</b></Typography>
                         }
                     <DialogContentText>
-                        <Typography>Latestly onlined at {device.online_at}</Typography>
+                        <Typography>Latestly onlined at {device.onlineAt}</Typography>
                         <Typography>Created at {device.created}</Typography>
                     </DialogContentText>
                     <SingleDeviceMaps height='50vh' device={device} />
@@ -93,5 +96,3 @@ const DeviceDialog = ({device, viewingDevice, setViewingDevice}) => {
         </Dialog>
     );
 }
-
-export default DeviceDialog;

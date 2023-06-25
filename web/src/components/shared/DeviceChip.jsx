@@ -1,30 +1,15 @@
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    Chip,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    DialogActions,
-    DialogContentText,
-    Checkbox,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Typography
-} from '@mui/material';
+    Chip} from '@mui/material';
 import fetchSingleDevice from '../../utils/fetchSingleDevice';
 import DeviceDialog from './DeviceDialog';
+import PropTypes from 'prop-types';
 
-const DeviceChip = ({ clientid, ...rest }) => {
+DeviceChip.propTypes = {
+    clientid: PropTypes.string,
+};
+
+export default function DeviceChip({ clientid }){
     const [deviceLoaded, setDeviceLoaded] = useState(false);
     const [device, setDevice] = useState({});
     const [viewingDevice, setViewingDevice] = useState(false);
@@ -55,5 +40,3 @@ const DeviceChip = ({ clientid, ...rest }) => {
         </>
     )
 }
-
-export default DeviceChip;

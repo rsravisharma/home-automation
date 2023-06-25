@@ -7,7 +7,6 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemText,
   Typography
 } from '@mui/material';
@@ -15,10 +14,18 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Link } from 'react-router-dom';
 // import devices from 'src/__mocks__/devices'
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import DeviceDialog from '../shared/DeviceDialog';
+import PropTypes from 'prop-types';
 
-const RecentDevices = (props) => {
+RecentDevices.propTypes = {
+  devices: {
+    length: PropTypes.number,
+    slice: PropTypes.func,
+  }
+};
+
+export default function RecentDevices(props){
   const MAX = 5;
   var devices = props.devices;
   const [viewingDevice, setViewingDevice] = useState([false, false, false, false, false]);
@@ -95,6 +102,5 @@ const RecentDevices = (props) => {
       />
     ))}
   </>
-)};
+)}
 
-export default RecentDevices;

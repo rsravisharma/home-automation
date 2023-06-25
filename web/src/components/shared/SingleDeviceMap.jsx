@@ -1,13 +1,24 @@
 import React from "react";
 import { useEffect, useState } from 'react';
 import {
-    Box, Typography
+    Typography
 } from '@mui/material';
 import fetchMessageOfDevice from "../../utils/fetchMessageOfDevice";
 import MessageDialog from "./MessageDialog";
-import DeviceDialog from "./DeviceDialog";
+import PropTypes from 'prop-types';
 
-const SingleDeviceMap = ({height, device}) => {
+SingleDeviceMap.propTypes = {
+    device: {
+    deviceName: PropTypes.any,
+    clientId: PropTypes.string,
+    offlineAt: PropTypes.number,
+    height: PropTypes.number,
+    message: PropTypes.object
+  },
+  height: PropTypes.number,
+};
+
+export default function SingleDeviceMap({height, device}){
     const mapRef = React.useRef(null);
     let google = window.google;
     let map_element = mapRef.current;
@@ -72,8 +83,8 @@ const SingleDeviceMap = ({height, device}) => {
             ],
         });
         
-        var contentString = '<div class="info-window-content"><h2>' + device.device_name + '</h2>' + '<p>#' + device.clientid + '</p>';
-        if(device.offline_at)
+        var contentString = '<div class="info-window-content"><h2>' + device.deviceName + '</h2>' + '<p>#' + device.clientId + '</p>';
+        if(device.offlineAt)
         {
             contentString += '<h3 style=\'color: #69778b\'>Offline</h3>';
         }
@@ -94,12 +105,12 @@ const SingleDeviceMap = ({height, device}) => {
 
         
         /* Add marks */
-        var i = 0;
-        for(var message of messages)
+        // var list = 0;
+        for(var messageList of messages)
         {
             const svgMarker = {
                 path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
-                fillColor: message.alert?'#ffc400':'#555555',
+                fillColor: messageList.alert?'#ffc400':'#555555',
                 strokeColor: 'black', // Use HSLa function
                 fillOpacity: 1.0,
                 strokeWeight: 2,
@@ -108,17 +119,17 @@ const SingleDeviceMap = ({height, device}) => {
                 anchor: { x: 12, y: 22 },
             };
             const marker = new google.maps.Marker({
-                position: {lat: message.lat, lng: message.lng},
+                position: {lat: messageList.lat, lng: messageList.lng},
                 icon: svgMarker,
                 map: map,
                 animation: google.maps.Animation.DROP,
                 title: 'Click to see more',
-                message: message,
+                message: messageList,
             });
     
             const contentString =
-                '<div class="info-window-content"><h2>Message #' + message.msgid + '</h2>' +
-                '<p>sent by device <b>#' + message.clientid + '</b> at <b>' + message.timestamp + '</b></p></div>';
+                '<div class="info-window-content"><h2>Message #' + messageList.msgid + '</h2>' +
+                '<p>sent by device <b>#' + messageList.clientId + '</b> at <b>' + messageList.timestamp + '</b></p></div>';
     
             const infowindow = new google.maps.InfoWindow({
                 content: contentString,
@@ -135,13 +146,13 @@ const SingleDeviceMap = ({height, device}) => {
             google.maps.event.addListener(marker, "mouseout", function () {
                 infowindow.close(map, marker);
             });
-            i++;
+            // list++;
         }
 
     }, [messages]);
 
     useEffect(() => {
-        fetchMessageOfDevice(device.clientid).then((fetched_messages) => {
+        fetchMessageOfDevice(device.clientId).then((fetched_messages) => {
             setMessages(fetched_messages);
         });
     }, []);
@@ -164,6 +175,4 @@ const SingleDeviceMap = ({height, device}) => {
         />
     </>
     );
-};
-
-export default SingleDeviceMap;
+}

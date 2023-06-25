@@ -2,14 +2,12 @@ import { Helmet } from 'react-helmet';
 import {
   Box,
   Container,
-  Grid,
 } from '@mui/material';
 import AccountProfile from '../components/account/AccountProfile';
 import AccountProfileDetails from '../components/account/AccountProfileDetails';
 import fetchAccount from '../utils/fetchAccount';
 import AccountPassword from '../components/account/AccountPassword'
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const Account = () => {
   const [account, setAccount] = useState({});

@@ -1,15 +1,19 @@
 import {
     Avatar,
     Box,
-    Button,
     Card,
-    CardActions,
     CardContent,
-    Divider,
     Typography
   } from '@mui/material';
-  
-  const AccountProfile = ({account}) => (
+import PropTypes from 'prop-types';
+
+AccountProfile.propTypes = {
+  account: {
+    userName: PropTypes.string,
+  }
+};
+
+export default function  AccountProfile ({account}){
     <Card>
       <CardContent>
         <Box
@@ -32,24 +36,10 @@ import {
             variant="h3"
             sx={{mt: 0}}
           >
-            {account.user_name}
+            {account.userName}
           </Typography>
-          {/* <Typography
-            color="textSecondary"
-            variant="body1"
-          >
-            {`${user.city} ${user.country}`}
-          </Typography>
-          <Typography
-            color="textSecondary"
-            variant="body1"
-          >
-            {`${moment().format('hh:mm A')} ${user.timezone}`}
-          </Typography> */}
         </Box>
       </CardContent>
     </Card>
-  );
-  
-  export default AccountProfile;
+ }
   
