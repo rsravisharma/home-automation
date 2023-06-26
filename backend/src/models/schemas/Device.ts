@@ -6,10 +6,6 @@ interface IDevice {
   user: mongoose.ObjectId,
   token: string;
   model: string,
-  components: Array<{
-    type: string,
-    source: Array<{ pin: mongoose.ObjectId, key: string }>
-  }>,
   pins: Array<{
     number: number,
     mode: string,
