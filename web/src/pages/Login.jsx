@@ -1,106 +1,90 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { useFormik } from 'formik';
 import {
   Box,
   Button,
   Container,
   Link,
   TextField,
-  Typography
+  Typography,
+  Stack,
+  InputAdornment,
+  Paper,
+  IconButton,
 } from '@mui/material';
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import connect_config from '../utils/config.json';
+import { useState } from "react";
+import { useSnackbar } from 'notistack';
+import * as AuthService from "../services/auth.service";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+  username: yup
+    .string('Enter your Username')
+    .required('Username is required'),
+  password: yup
+    .string('Enter your password')
+    .required('Password is required'),
+});
 
 const Login = () => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const formik = useFormik({
+    initialValues: {
+      username: 'admin',
+      password: '12345678',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      AuthService.signIn(values.username, values.password).then(res => {
+        enqueueSnackbar(res.message, { variant: "success" })
+      }).catch(err => {
+        enqueueSnackbar(err.message, { variant: "error" })
+      })
+    },
+  });
 
   return (
     <>
       <Helmet>
         <title>Login | IoTwebsite</title>
       </Helmet>
-      <Box
-        sx={{
-          backgroundColor: 'background.default',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-          justifyContent: 'center',
-        }}
-      >
-        <Container maxWidth="sm">
-          <Formik
-            initialValues={{
-              email: 'admin@iot.com',
-              password: '12345678'
-            }}
-            validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-              password: Yup.string().max(255).required('Password is required')
-            })}
-            onSubmit={(values, {setSubmitting}) => {
-              var password_hash = values.password;
-              console.log(values);
-              var obj = {"email": values.email, "password_hash": password_hash};
-              var sessionStorage = window.sessionStorage;
+      <Box sx={{
+        height: "100%", width: "100%",
+        display: "flex", alignItems: "center",
+        justifyContent: "center",
+        // backgroundColor: colors.blueGrey[900],
+        backgroundImage: `linear-gradient(to bottom right, rgba(120,120,0,0.7), rgba(0,0,120,0.7))`,
+        /* Created with https://www.css-gradient.com */
+        // background: "#FEFEFD",
+        // background: "linear-gradient(to bottom right, #FFF9ED, #FEFEFD)",
+      }}>
+        <Box sx={{ maxWidth: 350, flexGrow: 1, }} textAlign="center">
+          <Paper sx={{ p: 4, py: 6, mt: 2 }}>
 
-              fetch(connect_config.backend_host + '/login',{
-                  method:'post',
-                  headers:{
-                    "Access-Control-Allow-Origin": "*",
-                    "Accept": 'application/json',
-                    // "Content-Type": "application/x-www-form-urlencoded",
-                    "Content-Type": "application/json;charset=UTF-8",
-                  },
-                  // body:`email=${values.username}&password_hash=${password_hash}`
-                  body: JSON.stringify(obj)
-              }).then(res=>{
-                res.json().then((sql_ret)=>{
-                  console.log(sql_ret);
-                  if(sql_ret[0].num > 0) // Successfully login!
-                  {
-                    sessionStorage.setItem('user_name', sql_ret[0].user_name);
-                    console.log('sessionStorage.getItem(\'user_name\')', sessionStorage.getItem('user_name'));
-                    navigate('/app/dashboard', { replace: true });
-                  }
-                  else
-                  {
-                    window.alert('Login failed! Check your email address and password.')
-                    console.log('Login failed!');
-                    setSubmitting(false);
-                  }
-                })
-              })
-            }
-          }
-          >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              touched,
-              values
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <Box sx={{ mb: 0 }}>
-                  <Typography
-                    color="textPrimary"
-                    variant="h2"
-                  >
-                    Sign in
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                  >
-                    Sign in on the IoT platform
-                  </Typography>
-                </Box>
-                {/* <Grid
+
+            <form onSubmit={formik.handleSubmit}>
+              <Box sx={{ mb: 0 }}>
+                <Typography
+                  color="textPrimary"
+                  variant="h2"
+                >
+                  Sign in
+                </Typography>
+                <Typography
+                  color="textSecondary"
+                  gutterBottom
+                  variant="body2"
+                >
+                  Sign in on the IoT platform
+                </Typography>
+              </Box>
+              {/* <Grid
                   container
                   spacing={3}
                 >
@@ -150,62 +134,67 @@ const Login = () => {
                     or login with email address
                   </Typography>
                 </Box> */}
-                <TextField
-                  error={Boolean(touched.email && errors.email)}
-                  fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
-                  margin="normal"
-                  name="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="email"
-                  value={values.email}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.password && errors.password)}
-                  fullWidth
-                  helperText={touched.password && errors.password}
-                  label="Password"
-                  margin="normal"
-                  name="password"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="password"
-                  value={values.password}
-                  variant="outlined"
-                />
-                <Box sx={{ py: 2 }}>
-                  <Button
-                    color="primary"
-                    disabled={isSubmitting}
+              <Stack spacing={3}>
+                <Box>
+                  <TextField
+                    label="Username"
+                    variant="standard"
                     fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                  >
-                    Sign in now
-                  </Button>
+                    id="username"
+                    name="username"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                    error={formik.touched.username && Boolean(formik.errors.username)}
+                    helperText={formik.touched.username && formik.errors.username}
+                  />
+
                 </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
+
+                <TextField
+                  label="Password"
+                  variant="standard"
+                  fullWidth
+                  id="password"
+                  name="password"
+                  type={showPassword ? "tex" : "password"}
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  helperText={formik.touched.password && formik.errors.password}
+                  InputProps={{
+                    endAdornment: (<InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={e => setShowPassword(!showPassword)}
+                        onMouseDown={e => e.preventDefault()}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>)
+                  }}
+                />
+
+                <Button type="submit" sx={{ width: "100%" }} variant="contained" color="primary">LOGIN</Button>
+              </Stack>
+              <Typography
+                color="textSecondary"
+                variant="body2"
+                mt={2}
+              >
+                Don't have an account?
+                {' '}
+                <Link
+                  component={RouterLink}
+                  to="/register"
+                  variant="h7"
                 >
-                  Don&apos;t have an account?
-                  {' '}
-                  <Link
-                    component={RouterLink}
-                    to="/register"
-                    variant="h6"
-                  >
-                    Sign up
-                  </Link>
-                </Typography>
-              </form>
-            )}
-          </Formik>
-        </Container>
+                  Sign Up
+                </Link>
+              </Typography>
+            </form>
+          </Paper>
+        </Box>
       </Box>
     </>
   );

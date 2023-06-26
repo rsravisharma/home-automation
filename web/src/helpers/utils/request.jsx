@@ -5,11 +5,8 @@ class Request {
     http;
     _http;
     constructor(base = undefined) {
-        const _uri_with_base = base
-            ? process.env.REACT_APP_API_URL + base
-            : process.env.REACT_APP_API_URL || "";
-        const _uri = process.env.REACT_APP_API_URL || "";
-
+        const _uri = import.meta.env.VITE_API_ENDPOINT;
+        const _uri_with_base = `${import.meta.env.VITE_API_ENDPOINT}${base}`;
 
         this.http = this.createHttp(_uri_with_base);
         this._http = this.createHttp(_uri);

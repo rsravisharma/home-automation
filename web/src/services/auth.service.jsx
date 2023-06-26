@@ -3,14 +3,30 @@ import { AuthActions } from "../helpers/redux/slices/auth.slice";
 import Request from "../helpers/utils/request";
 const request = new Request("/auth");
 
-export const login = (username, password) => {
+export const signIn = (username, password) => {
     return new Promise((resolve, reject) => {
-        request.http.post("/login", { username, password }).then(res => {
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("role", res.data.role);
+        request.http.post("/signin", { username, password }).then(res => {
+            localStorage.setItem("accessToken", res.result.accessToken);
+            localStorage.setItem("refreshToken", res.result.refreshToken);
             store.dispatch(AuthActions.update({ 
-                token: res.data.token,
-                role:  res.data.role,
+                accessToken: res.result.accessToken,
+                refreshToken:  res.result.refreshToken,
+             }));
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    });
+}
+
+export const signUp = (name, username, email, password) => {
+    return new Promise((resolve, reject) => {
+        request.http.post("/signup", { name, username, email, password }).then(res => {
+            localStorage.setItem("accessToken", res.result.accessToken);
+            localStorage.setItem("refreshToken", res.result.refreshToken);
+            store.dispatch(AuthActions.update({ 
+                accessToken: res.result.accessToken,
+                refreshToken:  res.result.refreshToken,
              }));
             resolve(res);
         }).catch(err => {
@@ -22,7 +38,7 @@ export const login = (username, password) => {
 export const verifyToken = () => {
     if (localStorage.getItem("token")) {
         return new Promise((resolve, reject) => {
-            request.http.post("/verifyToken").then(res => {
+            request.http.post("/verify").then(res => {
                 store.dispatch(AuthActions.update({ 
                     token: localStorage.getItem("token"),
                     role: localStorage.getItem("role")
