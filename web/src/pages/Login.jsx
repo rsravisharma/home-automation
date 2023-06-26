@@ -1,11 +1,8 @@
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useFormik } from 'formik';
 import {
   Box,
   Button,
-  Container,
-  Link,
   TextField,
   Typography,
   Stack,
@@ -14,7 +11,6 @@ import {
   IconButton,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import connect_config from '../utils/config.json';
 import { useState } from "react";
 import { useSnackbar } from 'notistack';
 import * as AuthService from "../services/auth.service";
@@ -30,7 +26,7 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -165,7 +161,7 @@ const Login = () => {
                     endAdornment: (<InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={e => setShowPassword(!showPassword)}
+                        onClick={() => setShowPassword(!showPassword)}
                         onMouseDown={e => e.preventDefault()}
                         edge="end"
                       >
@@ -182,15 +178,14 @@ const Login = () => {
                 variant="body2"
                 mt={2}
               >
-                Don't have an account?
-                {' '}
-                <Link
+                Don`&#39;t have an account?
+                {/* <Link
                   component={RouterLink}
                   to="/register"
                   variant="h7"
                 >
                   Sign Up
-                </Link>
+                </Link> */}
               </Typography>
             </form>
           </Paper>

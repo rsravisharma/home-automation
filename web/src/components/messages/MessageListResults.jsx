@@ -31,7 +31,7 @@ export default function MessageListResults({ messages, alertOnly, ...rest }){
     while(tmp * limit > messages.length)
       tmp--;
     setPage(tmp);
-  }, [limit])
+  }, [limit, messages.length, page])
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);

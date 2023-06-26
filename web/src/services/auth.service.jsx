@@ -1,5 +1,5 @@
-import store from "../helpers/redux/store";
-import { AuthActions } from "../helpers/redux/slices/auth.slice";
+import store from "../redux/store";
+import { AuthActions } from "../redux/slices/auth.slice";
 import Request from "../helpers/utils/request";
 const request = new Request("/auth");
 
@@ -35,13 +35,13 @@ export const signUp = (name, username, email, password) => {
     });
 }
 
-export const verifyToken = () => {
-    if (localStorage.getItem("token")) {
+export const verify = () => {
+    if (localStorage.getItem("accessToken")) {
         return new Promise((resolve, reject) => {
             request.http.post("/verify").then(res => {
                 store.dispatch(AuthActions.update({ 
-                    token: localStorage.getItem("token"),
-                    role: localStorage.getItem("role")
+                    accessToken: localStorage.getItem("accessToken"),
+                    refreshToken: localStorage.getItem("refreshToken")
                  }));
                 resolve(res);
             }).catch(err => {
@@ -51,6 +51,15 @@ export const verifyToken = () => {
     } else {
         return Promise.reject(new Error("Token is not there"));
     }
+}
+
+export const me = () => {
+    return request.http.get("/me", {accessToken: localStorage.getItem("accessToken")}).then(res => {
+        store.dispatch(AuthActions.update({
+            profile: res.data,
+        }));
+        return res;
+    });
 }
 
 export const logout = () => {

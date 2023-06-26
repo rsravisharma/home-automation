@@ -20,7 +20,7 @@ const routes = createBrowserRouter([
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'devices', element: <DeviceList /> },
       { path: 'messages', element: <Messages /> },
-      { path: 'maps', element: <Maps height='91vh'/> },
+      { path: 'maps', element: <Maps height='91'/> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },

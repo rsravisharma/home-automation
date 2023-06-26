@@ -1,6 +1,6 @@
 import axios from "axios";
-import store from "../redux/store";
-import { AuthActions } from "../redux/slices/auth.slice";
+import store from "../../redux/store";
+import { AuthActions } from "../../redux/slices/auth.slice";
 class Request {
     http;
     _http;
@@ -18,8 +18,8 @@ class Request {
             function (config) {
                 // Do something before request is sent
                 const headers = {};
-                if (localStorage.getItem("token")) {
-                    headers.Authorization = `${localStorage.getItem("token")}`;
+                if (localStorage.getItem("accessToken")) {
+                    headers.Authorization = `${localStorage.getItem("accessToken")}`;
                 }
                 config.headers = headers;
                 return config;
@@ -41,10 +41,8 @@ class Request {
             },
             (error) => {
                 error.message = error?.response?.data?.message ?? error.message
-                console.log(error);
                 if (error.response.status === 403) {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("role");
+                    localStorage.removeItem("accessToken");
                     store.dispatch(AuthActions.reset());
                 }
                 return Promise.reject(new Error(error.message));

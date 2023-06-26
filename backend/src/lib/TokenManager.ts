@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 export default class TokenManager {
     static verifyAccessToken(token: string) {
+        console.log('the token is', token, 'and the string is ', process.env.ACCESS_TOKEN_KEY);
         try {
             return jwt.verify(token, process.env.ACCESS_TOKEN_KEY || "");
         } catch (e) {

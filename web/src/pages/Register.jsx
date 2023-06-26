@@ -1,22 +1,17 @@
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useFormik } from 'formik';
 import {
   Box,
   Button,
-  Container,
   Link,
   TextField,
   Typography,
-  Stack,
-  InputAdornment,
   Paper,
-  IconButton,
-  Checkbox
+  Checkbox,
+  FormHelperText 
 } from '@mui/material';
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import connect_config from '../utils/config.json';
-import { useState, useEffect } from "react";
+// import { useState } from "react";
 import * as AuthService from "../services/auth.service";
 import { useSnackbar } from 'notistack';
 import * as yup from "yup";
@@ -41,9 +36,9 @@ const validationSchema = yup.object({
 });
 
 const Register = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
     initialValues: {

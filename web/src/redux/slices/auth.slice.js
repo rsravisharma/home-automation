@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const AuthSlice = createSlice({
     name: 'auth',
     initialState: {
-        token: null,
-        role: null
+        accessToken: null,
+        refreshToken: null
     },
     reducers: {
         update(state, action) {
@@ -14,12 +14,12 @@ const AuthSlice = createSlice({
         },
         reset() {
             return {
-                token: null,
-                role: null
+                accessToken: null,
+                refreshToken: null
             }
         }
     },
 })
-const { actions, reducer } = AuthSlice
+const { actions, reducer } = AuthSlice;
 export const AuthActions = actions;
 export default reducer;

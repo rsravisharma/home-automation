@@ -15,6 +15,7 @@ import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import MessageIcon from '@mui/icons-material/Message';
 import MapIcon from '@mui/icons-material/Map';
 import NavItem from '../NavItem';
+import CatAvatar from "../../assets/cat_avatar.png";
 
 const items = [
   {
@@ -86,7 +87,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       >
         <Avatar
           component={RouterLink}
-          src='/static/images/avatars/cat_avatar.png'
+          src={CatAvatar}
           sx={{
             cursor: 'pointer',
             width: 64,
