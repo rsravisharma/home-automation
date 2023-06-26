@@ -7,7 +7,7 @@ interface IDevice {
   token: string;
   model: string,
   pins: Array<{
-    number: number,
+    number: number, /// for esp32 {DG: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33, 34, 35, 36,], AN: [32, 33, 34, 35, 36, 37, 38, 39]}
     mode: string,
     type: string,
     value: number
