@@ -27,8 +27,9 @@ router.put("/", async (req: any, res) => {
 
     //update to device
     const mqtt_client = req.app.get("mqtt");
-    console.log("Topic is::", `device/${device?._id.toString()}/pins`);
-    mqtt_client.publish(`device/${device?._id.toString()}/pins`, JSON.stringify(device?.pins))
+    const topic = `device/${device?._id.toString()}/pins/config`;
+    console.log("Topic is::", topic);
+    mqtt_client.publish(topic, JSON.stringify(device?.pins))
     //update to device
 
     return res.json({
