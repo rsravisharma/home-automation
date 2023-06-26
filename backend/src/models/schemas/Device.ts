@@ -23,7 +23,7 @@ const DeviceSchema = new Schema<IDevice>({
   pins: [{
     number: {type: Number, unique: true},
     mode: String,
-    type: String,
+    type: {type:String},
     value: Number
   }]
 });
