@@ -39,6 +39,7 @@
 
 # misc
 /web/.DS_Store
+/web/.env
 /web/.env.local
 /web/.env.development.local
 /web/.env.test.local
