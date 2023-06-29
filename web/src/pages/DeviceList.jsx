@@ -32,8 +32,9 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
-import esp32_v4 from '../assets/devices/esp32_v4.svg'
-import esp32_screen from '../assets/devices/esp32_screen.jpg'
+import esp32_v4 from '../assets/devices/esp32_v4.svg';
+import esp32_screen from '../assets/devices/esp32_screen.jpg';
+import * as DeviceService from "../services/device.service";
 
 const DeviceList = () => {
   const [devices, setDevices] = useState([]);
@@ -86,14 +87,12 @@ const DeviceList = () => {
   };
 
   // Initial run: fetch device list from backend
-  useEffect(() => {
-    if (sessionStorage.getItem('user_name')) {
+  useEffect((filter = {}) => {
       // Fetch device list
-      fetchDeviceList().then((data) => {
+      DeviceService.all(filter).then((data) => {
         setDevices(data);
         setAllDevices(data);
       })
-    }
   }, []);
 
   // Side effect of `devices`: changing the `checked` state
@@ -169,7 +168,7 @@ const DeviceList = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {devices.map((device, index) => (
+                    {/* {devices.length > 0 && devices.map((device, index) => (
                       <TableRow
                         hover
                         key={device.id}
@@ -198,7 +197,7 @@ const DeviceList = () => {
                           </Typography>}
                         </TableCell>
                       </TableRow>
-                    ))}
+                    ))} */}
                   </TableBody>
                 </Table>
               </Box>
@@ -222,9 +221,7 @@ const DeviceList = () => {
             console.log(values);
             setSubmitting(false);
 
-            fetch(connect_config.backend_host + '/add_device', {
-              
-            }).then(res => {
+            DeviceService.create(values).then(res => {
               res.json().then((ret) => {
                 console.log(ret);
                 if (ret.success) // Successfully add/update!
@@ -245,6 +242,7 @@ const DeviceList = () => {
               })
             })
           }}
+
         >
           {({
             errors,
@@ -376,7 +374,7 @@ const DeviceList = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {devices.map((device, index) => {
+              {/* {devices && devices.map((device, index) => {
                 if (checked[index]) {
                   return (<TableRow
                     hover
@@ -390,7 +388,7 @@ const DeviceList = () => {
                     </TableCell>
                   </TableRow>);
                 }
-              })}
+              })} */}
             </TableBody>
           </Table>
         </DialogContent>
@@ -401,7 +399,7 @@ const DeviceList = () => {
           }>
             No
           </Button>
-          <Button
+          {/* <Button
             color="error"
             onClick={() => {
               var delete_devices = [];
@@ -456,7 +454,7 @@ const DeviceList = () => {
             }
             } autoFocus>
             Yes
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
     </>
