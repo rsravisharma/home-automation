@@ -374,7 +374,7 @@ const DeviceList = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* {devices && devices.map((device, index) => {
+              {devices && devices.map((device, index) => {
                 if (checked[index]) {
                   return (<TableRow
                     hover
@@ -388,7 +388,7 @@ const DeviceList = () => {
                     </TableCell>
                   </TableRow>);
                 }
-              })} */}
+              })}
             </TableBody>
           </Table>
         </DialogContent>
